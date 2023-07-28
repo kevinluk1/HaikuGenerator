@@ -50,7 +50,7 @@ def cmudict_missing(word_set) -> Set[str]:
         print("\nNumber of unique words in haiku corpus = {}".format(len(word_set)))
         membership = (1 - (len(exceptions) / len(word_set))) * 100
         print("cmudict membership = {:.1f}{}".format(membership, '%'))
-        return exceptions
+    return exceptions
 
 
 def make_exceptions_dict(exceptions_set) -> dict[str, int]:
