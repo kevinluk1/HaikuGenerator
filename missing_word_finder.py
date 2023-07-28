@@ -45,11 +45,11 @@ def cmudict_missing(word_set) -> Set[str]:
             word = word[:-2]
         if word not in cmudict:
             exceptions.add(word)
-        print("\nexceptions:")
-        print(*exceptions, sep='\n')  # splat operator to unpack, newline between each when printing
-        print("\nNumber of unique words in haiku corpus = {}".format(len(word_set)))
-        membership = (1 - (len(exceptions) / len(word_set))) * 100
-        print("cmudict membership = {:.1f}{}".format(membership, '%'))
+    print("\nexceptions:")
+    print(*exceptions, sep='\n')  # splat operator to unpack, newline between each when printing
+    print("\nNumber of unique words in haiku corpus = {}".format(len(word_set)))
+    membership = (1 - (len(exceptions) / len(word_set))) * 100
+    print("cmudict membership = {:.1f}{}".format(membership, '%'))
     return exceptions
 
 
