@@ -85,7 +85,7 @@ def make_exceptions_dict(exceptions_set) -> dict[str, int]:
             elif choice == "1":
                 word = input("\nWord to add or change:")
                 missing_words[word] = int(input("Enter number syllables in {}:".format(word)))
-            elif choice == '2':
+            elif choice == "2":
                 word = input("\nEnter word to delete: ")
                 if missing_words[word]:
                     missing_words.pop(word, None)
