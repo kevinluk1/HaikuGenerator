@@ -6,7 +6,7 @@ from nltk.corpus import cmudict
 
 with open('missing_words.json') as f:
     missing_words = json.load(f)
-cmudict = cmudict.dict()
+    cmudict = cmudict.dict()
 
 
 def count_syllables(words) -> int:
@@ -21,8 +21,27 @@ def count_syllables(words) -> int:
         num_sylls += missing_words[word]
 
     else:
-        for phonemes in cmudict[word][0]:
+        for phonemes in cmudict[word][0]:  # key: word -- value: list of lists [[]], [['EY1', 'JH', 'D'], ['EY1', 'JH', 'IH0', 'D']]
             for phoneme in phonemes:
                 if phoneme[-1].isidigit():
                     num_sylls +=1
     return num_sylls
+
+
+def main():
+    while True:
+        print("Syllable Counter")
+        word = input("Enter word or phrase")
+        if word == '':
+            sys.exit()
+
+        try:
+            num_syllables = count_syllables(word)
+            print(f"Number of syllables in {word} is {num_syllables}")
+            print()
+        except KeyError:
+            print("Word not found. Try again. \n", file=sys.stderr)
+
+
+if __name__ == '__main__':
+    main()

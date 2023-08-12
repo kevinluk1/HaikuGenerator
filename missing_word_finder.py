@@ -60,7 +60,7 @@ def make_exceptions_dict(exceptions_set) -> dict[str, int]:
     missing_words = {}
     print("Input # of syllables in word. Mistakes can be corrected at the end. \n")
 
-    # Account for all the missing words in the haiku training corpus
+    # Account for all thxe missing words in the haiku training corpus
     for word in exceptions_set:
         while True:
             num_sylls: str = input("Enter the number of syllables in {}:".format(word))
