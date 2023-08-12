@@ -19,12 +19,13 @@ def count_syllables(words) -> int:
             word = word[:-2]
     if word in missing_words:
         num_sylls += missing_words[word]
-
-    else:
+    elif word in cmudict:
         for phonemes in cmudict[word][0]:  # key: word -- value: list of lists [[]], [['EY1', 'JH', 'D'], ['EY1', 'JH', 'IH0', 'D']]
             for phoneme in phonemes:
                 if phoneme[-1].isidigit():
                     num_sylls +=1
+    else:
+        raise KeyError
     return num_sylls
 
 
