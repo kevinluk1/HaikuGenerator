@@ -85,7 +85,7 @@ def word_after_double(prefix, markov2, current_sylls, target_sylls) -> list:
     return accepted_words
 
 
-def haiku_line(markov1: dict, markov2: dict, corpus: str, end_prev_line: list, target_sylls: int) -> tuple:
+def haiku_line(markov1: dict, markov2: dict, corpus: list, end_prev_line: list, target_sylls: int) -> tuple:
     line = '2 or 3'
     line_sylls = 0
     current_line = []
@@ -152,5 +152,57 @@ def haiku_line(markov1: dict, markov2: dict, corpus: str, end_prev_line: list, t
     else:
         completed_line = current_line[2:]
         return (completed_line, end_prev_line)
+
+
+
+def main():
+    raw_haiku = load_training_file("train.txt")
+    corpus = prep_training(raw_haiku)
+    markov_1 = map_word_to_word(corpus)
+    markov_2 = map_2_words_to_word(corpus)
+    final = []
+
+    choice = None
+    while choice != "0":
+        print(
+            """
+            Japanese Haiku Generator
+            0 - Quit
+            1 - Generate a Haiku
+            2 - Regenerate Line 2
+            3 - Regenerate Line 3
+            """
+        )
+
+    choice = input("Choice: ")
+    print()
+
+    if choice == "0":
+        print("bye!")
+        sys.exit()
+
+    elif choice == "1":
+        final = []
+        end_prev_line0 = []
+        first_line, end_prev_line1 = haiku_line(markov_1, markov_2, corpus, end_prev_line0, 5)
+        final.append(first_line)
+        line2, end_prev_line2 = haiku_line(markov_1, markov_2, corpus, end_prev_line1, 7)
+        final.append(line2)
+        line3, end_prev_line3 = haiku_line(markov_1, markov_2, corpus, end_prev_line2, 5)
+        final.append(line3)
+
+    elif choice == "2":
+        pass
+
+    elif choice == "3":
+        pass
+
+    else:
+        pass
+
+    # display results
+
+    if __name__ == '__main__':
+        main()
 
 
