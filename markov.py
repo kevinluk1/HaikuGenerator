@@ -69,7 +69,6 @@ def word_after_single(prefix, markov1, current_sylls, target_sylls) -> list:
                 accepted_words.append(candidate)
 
     logging.debug(f'accepted words after "{prefix}" = {set(accepted_words)}\n')
-
     return accepted_words
 
 
@@ -86,7 +85,7 @@ def word_after_double(prefix, markov2, current_sylls, target_sylls) -> list:
     return accepted_words
 
 
-def haiku_line(markov1, markov2, corpus, end_prev_line, target_sylls) -> tuple:
+def haiku_line(markov1: dict, markov2: dict, corpus: str, end_prev_line: list, target_sylls: int) -> tuple:
     line = '2 or 3'
     line_sylls = 0
     current_line = []
@@ -101,17 +100,57 @@ def haiku_line(markov1, markov2, corpus, end_prev_line, target_sylls) -> tuple:
         while len(word_choices) == 0:   # ghost prefix, not added to the line, just used to re-access markov model
             backup_prefix = random.choice(corpus)
             logging.debug(f'new random prefix = "{backup_prefix}"')
-            word_choices: list = word_after_single(backup_prefix, markov1, line_sylls, target_sylls)
+            word_choices: list = word_after_single(backup_prefix, markov1, line_sylls, target_sylls) # pass the ghost prefix
 
 
         word = random.choice(word_choices)
         num_sylls: int = count_syllables(word)
         logging.debug(f'"word and syllables = {word},{num_sylls}"')
-
         line_sylls += num_sylls
         current_line.append(word)
-        if line_sylls == target_sylls:
+
+        if line_sylls == target_sylls:  # in the case that the first two words (as opposed to first 3 or 4) are equal to 5 syllables
             end_prev_line.extend(current_line[-2:])  # prep to use 2nd order markov chain
-            return (current_line, end_prev_line)  # pass the end of the prev line to use as markov chain key
+            return current_line, end_prev_line  # pass the end of the prev line to use as markov chain key
+
+    else:
+        current_line.extend(end_prev_line)  # curr = [my, name], end = []
+
+    while True:
+        logging.debug(f'line={line}')
+        prefix = current_line[-2] + ' ' + current_line[-1]
+        word_choices: list = word_after_double(prefix, markov2, line_sylls, target_sylls)
+
+        while len(word_choices) == 0:  # ghost seeding
+            index = random.randint(0, len(corpus) - 2)
+            prefix = corpus[index] + ' ' + corpus[index+1]
+            logging.debug(f'new random prefix = {prefix}')
+            word_choices = word_after_double(prefix, markov2, line_sylls, target_sylls)
+            word = random.choice(word_choices)
+            num_sylls = count_syllables(word)
+            logging.debug(f'word and syllables = {word, num_sylls}')
+
+        word = random.choice(word_choices)
+        num_sylls = count_syllables(word)
+        logging.debug(f'word and syllables = {word, num_sylls}')
+
+        if line_sylls + num_sylls > target_sylls:  # choose another word from word_choices
+            continue
+        elif line_sylls + num_sylls < target_sylls:
+            current_line.append(word)
+            line_sylls += num_sylls
+        elif line_sylls + num_sylls == target_sylls:
+            line_sylls +=num_sylls
+            current_line.append(word)
+            break
+
+    end_prev_line = []
+    end_prev_line.extend(current_line[-2:])
+
+    if line == '1':
+        completed_line = current_line[:]
+    else:
+        completed_line = current_line[2:]
+        return (completed_line, end_prev_line)
 
 
