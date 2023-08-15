@@ -15,12 +15,12 @@ def load_training_file(file) -> str:
         return raw_haiku
 
 
-def prep_training(raw_haiku  : str) -> list:
+def prep_training(raw_haiku: str) -> List:
     corpus = raw_haiku.replace('\n', ' ').split()
     return corpus
 
 
-def map_word_to_word(corpus : list) -> dict:  # one word markov model
+def map_word_to_word(corpus: List) -> Dict[str, List]:  # one word markov model
     limit = len(corpus) - 1  # off by 1 indexing
     dict1_to_1 = defaultdict(list)
     for index, word in enumerate(corpus):
@@ -35,7 +35,7 @@ def map_word_to_word(corpus : list) -> dict:  # one word markov model
     return dict1_to_1
 
 
-def map_2_words_to_word(corpus: list) -> dict:  # two word markov model
+def map_2_words_to_word(corpus: List) -> Dict:  # two word markov model
     limit = len(corpus) - 2
     dict2_to_1 = defaultdict(list)
     for index, word in enumerate(corpus):
@@ -49,7 +49,7 @@ def map_2_words_to_word(corpus: list) -> dict:  # two word markov model
     return dict2_to_1
 
 
-def seed_word(corpus: list) -> tuple:
+def seed_word(corpus: List) -> Tuple[str, int]:
     word = random.choice(corpus)
     num_sylls = count_syllables(word)
     if num_sylls <= 4:
@@ -59,7 +59,7 @@ def seed_word(corpus: list) -> tuple:
 
 
 
-def word_after_single(prefix, markov1, current_sylls, target_sylls) -> list:
+def word_after_single(prefix, markov1, current_sylls, target_sylls) -> List:
     accepted_words = []
     suffixes = markov1.get(prefix)
     if suffixes is not None:
@@ -72,7 +72,7 @@ def word_after_single(prefix, markov1, current_sylls, target_sylls) -> list:
     return accepted_words
 
 
-def word_after_double(prefix, markov2, current_sylls, target_sylls) -> list:
+def word_after_double(prefix, markov2, current_sylls, target_sylls) -> List:
     accepted_words = []
     suffixes = markov2.get(prefix)
     if suffixes is not None:
@@ -85,25 +85,23 @@ def word_after_double(prefix, markov2, current_sylls, target_sylls) -> list:
     return accepted_words
 
 
-def haiku_line(markov1: dict, markov2: dict, corpus: list, end_prev_line: list, target_sylls: int) -> tuple:
+def haiku_line(markov1: Dict, markov2: Dict, corpus: List[str], end_prev_line: List, target_sylls: int) -> Tuple[List[str], List[str]]:
     line = '2 or 3'
     line_sylls = 0
     current_line = []
     if len(end_prev_line) == 0:  # on line 1
         line = '1'
         word, num_sylls = seed_word(corpus)
-        current_line.append(word)
+        current_line.append(word)  # first word
         line_sylls += num_sylls
-        word_choices: list = word_after_single(word, markov1, line_sylls, target_sylls)
-        word: str = random.choice(word_choices)
+        word_choices: List = word_after_single(word, markov1, line_sylls, target_sylls)
 
         while len(word_choices) == 0:   # ghost prefix, not added to the line, just used to re-access markov model
             backup_prefix = random.choice(corpus)
             logging.debug(f'new random prefix = "{backup_prefix}"')
-            word_choices: list = word_after_single(backup_prefix, markov1, line_sylls, target_sylls) # pass the ghost prefix
+            word_choices: List = word_after_single(backup_prefix, markov1, line_sylls, target_sylls) # pass the ghost prefix
 
-
-        word = random.choice(word_choices)
+        word: str = random.choice(word_choices)  # second word
         num_sylls: int = count_syllables(word)
         logging.debug(f'"word and syllables = {word},{num_sylls}"')
         line_sylls += num_sylls
@@ -114,12 +112,12 @@ def haiku_line(markov1: dict, markov2: dict, corpus: list, end_prev_line: list, 
             return current_line, end_prev_line  # pass the end of the prev line to use as markov chain key
 
     else:
-        current_line.extend(end_prev_line)  # curr = [my, name], end = []
+        current_line.extend(end_prev_line)
 
     while True:
         logging.debug(f'line={line}')
         prefix = current_line[-2] + ' ' + current_line[-1]
-        word_choices: list = word_after_double(prefix, markov2, line_sylls, target_sylls)
+        word_choices: List = word_after_double(prefix, markov2, line_sylls, target_sylls)
 
         while len(word_choices) == 0:  # ghost seeding
             index = random.randint(0, len(corpus) - 2)
@@ -132,6 +130,7 @@ def haiku_line(markov1: dict, markov2: dict, corpus: list, end_prev_line: list, 
 
         word = random.choice(word_choices)
         num_sylls = count_syllables(word)
+
         logging.debug(f'word and syllables = {word, num_sylls}')
 
         if line_sylls + num_sylls > target_sylls:  # choose another word from word_choices
@@ -139,8 +138,9 @@ def haiku_line(markov1: dict, markov2: dict, corpus: list, end_prev_line: list, 
         elif line_sylls + num_sylls < target_sylls:
             current_line.append(word)
             line_sylls += num_sylls
+            continue
         elif line_sylls + num_sylls == target_sylls:
-            line_sylls +=num_sylls
+            line_sylls += num_sylls
             current_line.append(word)
             break
 
