@@ -174,33 +174,49 @@ def main():
             """
         )
 
-    choice = input("Choice: ")
-    print()
+        choice = input("Choice: ")
+        print()
 
-    if choice == "0":
-        print("bye!")
-        sys.exit()
+        if choice == "0":
+            print("bye!")
+            sys.exit()
 
-    elif choice == "1":
-        final = []
-        end_prev_line0 = []
-        first_line, end_prev_line1 = haiku_line(markov_1, markov_2, corpus, end_prev_line0, 5)
-        final.append(first_line)
-        line2, end_prev_line2 = haiku_line(markov_1, markov_2, corpus, end_prev_line1, 7)
-        final.append(line2)
-        line3, end_prev_line3 = haiku_line(markov_1, markov_2, corpus, end_prev_line2, 5)
-        final.append(line3)
+        elif choice == "1":
+            final:List[List[str]] = []
+            end_prev_line0 = []
+            first_line, end_prev_line1 = haiku_line(markov_1, markov_2, corpus, end_prev_line0, 5)
+            final.append(first_line)
+            line2, end_prev_line2 = haiku_line(markov_1, markov_2, corpus, end_prev_line1, 7)
+            final.append(line2)
+            line3, end_prev_line3 = haiku_line(markov_1, markov_2, corpus, end_prev_line2, 5)
+            final.append(line3)
 
-    elif choice == "2":
-        pass
+        elif choice == "2":
+            if not final:
+                print("Please generate a full haiku first")
+                continue
+            else:
+                line2, end_prev_line2 = haiku_line(markov_1, markov_2, corpus, end_prev_line1, 7)
+                final[1] = line2
 
-    elif choice == "3":
-        pass
+        elif choice == "3":
+            if not final:
+                print("Please generate a full haiku first")
+                continue
+            else:
+                line3, end_prev_line3 = haiku_line(markov_1, markov_2, corpus, end_prev_line2, 5)
+                final[2] = line3
 
-    else:
-        pass
+        else:
+            print("Not a valid choice")
+            continue
 
     # display results
+
+        print()
+        print("First line = " + ''.join(final[0]) + ''.join(final[1]) + ''.join(final[2]))
+
+
 
     if __name__ == '__main__':
         main()
