@@ -10,7 +10,7 @@ with open('missing_words.json') as f:
 
 
 def count_syllables(words) -> int:
-    words = words.replace('-','')
+    words = words.replace('-',' ')
     words = words.lower().split()
     num_sylls = 0
     for word in words:
@@ -19,13 +19,12 @@ def count_syllables(words) -> int:
             word = word[:-2]
     if word in missing_words:
         num_sylls += missing_words[word]
-    elif word in cmudict:
+    else:
         for phonemes in cmudict[word][0]:  # key: word -- value: list of lists [[]], [['EY1', 'JH', 'D'], ['EY1', 'JH', 'IH0', 'D']]
             for phoneme in phonemes:
-                if phoneme[-1].isidigit():
+                if phoneme[-1].isdigit():
                     num_sylls +=1
-    else:
-        raise KeyError
+
     return num_sylls
 
 

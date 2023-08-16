@@ -27,7 +27,7 @@ def main() -> None:
         sys.exit()
 
     else:
-        missing_words_dict: dict[str, int] = make_exceptions_dict(exceptions)
+        missing_words_dict: Dict[str, int] = make_exceptions_dict(exceptions)
         save_exceptions(missing_words_dict)
 
 
@@ -53,7 +53,7 @@ def cmudict_missing(word_set) -> Set[str]:
     return exceptions
 
 
-def make_exceptions_dict(exceptions_set) -> dict[str, int]:
+def make_exceptions_dict(exceptions_set) -> Dict[str, int]:
     """For each word in the exception_set (the set that we created by overlaying the cmudict and the haiku training corpus)
     make a dictionary with the word as the key and the number of syllables as the value (user supplied), and give the option
     to add new words"""

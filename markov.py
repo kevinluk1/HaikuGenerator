@@ -151,11 +151,13 @@ def haiku_line(markov1: Dict, markov2: Dict, corpus: List[str], end_prev_line: L
         completed_line = current_line[:]
     else:
         completed_line = current_line[2:]
-        return (completed_line, end_prev_line)
+
+    return (completed_line, end_prev_line)
 
 
 
 def main():
+
     raw_haiku = load_training_file("train.txt")
     corpus = prep_training(raw_haiku)
     markov_1 = map_word_to_word(corpus)
@@ -213,12 +215,16 @@ def main():
 
     # display results
 
+
+
         print()
+        print(final)
         print("First line = " + ''.join(final[0]) + ''.join(final[1]) + ''.join(final[2]))
 
 
 
-    if __name__ == '__main__':
-        main()
+
+if __name__ == '__main__':
+    main()
 
 
