@@ -5,7 +5,7 @@ from collections import defaultdict
 from count_syllables import count_syllables
 from typing import *
 
-# logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
 
@@ -29,9 +29,6 @@ def map_word_to_word(corpus: List) -> Dict[str, List]:  # one word markov model
             suffix = corpus[index + 1]
             dict1_to_1[key].append(suffix)
 
-
-    logging.debug(f'map_words_to_word_results for "sake" = \n {dict1_to_1["sake"]}')
-
     return dict1_to_1
 
 
@@ -44,8 +41,6 @@ def map_2_words_to_word(corpus: List) -> Dict:  # two word markov model
             suffix = corpus[index + 2]
             dict2_to_1[key].append(suffix)
 
-
-    logging.debug(f'map_2_words_to_word results for "sake jug" = \n {dict2_to_1["sake jug"]}')
     return dict2_to_1
 
 
@@ -124,13 +119,9 @@ def haiku_line(markov1: Dict, markov2: Dict, corpus: List[str], end_prev_line: L
             prefix = corpus[index] + ' ' + corpus[index+1]
             logging.debug(f'new random prefix = {prefix}')
             word_choices = word_after_double(prefix, markov2, line_sylls, target_sylls)
-            word = random.choice(word_choices)
-            num_sylls = count_syllables(word)
-            logging.debug(f'word and syllables = {word, num_sylls}')
 
         word = random.choice(word_choices)
         num_sylls = count_syllables(word)
-
         logging.debug(f'word and syllables = {word, num_sylls}')
 
         if line_sylls + num_sylls > target_sylls:  # choose another word from word_choices
@@ -216,12 +207,12 @@ def main():
     # display results
 
 
-
+        print("Your generated haiku:")
         print()
-        print(final)
-        print("First line = " + ''.join(final[0]) + ''.join(final[1]) + ''.join(final[2]))
-
-
+        print(f'List form: {final}')
+        for g in range(3):
+            final[g][0] = final[g][0].capitalize()
+        print(f"Final: \n\n {' '.join(final[0])} \n {' '.join(final[1])} \n {' '.join(final[2])}")
 
 
 if __name__ == '__main__':
