@@ -163,7 +163,7 @@ def generate_haiku():  # button 1 api call
     haiku = {
         "line1": ' '.join(final[0]),
         "line2": ' '.join(final[1]),
-        "line3": ' '.join(final[2]) }
+        "line3": ' '.join(final[2])}
 
     session['haiku'] = haiku
     session["end_prev_line1"] = end_prev_line1
@@ -173,17 +173,18 @@ def generate_haiku():  # button 1 api call
 @app.route('/regen2', methods=['GET'])
 def regen_2():
     line2, end_prev_line2 = haiku_line(markov_1, markov_2, corpus, session["end_prev_line1"], 7)
-    session['haiku']['line2'] = line2
+    session['haiku']['line2'] = ' '.join(line2)
+    session["end_prev_line2"] = line2[-2:]
     return jsonify(session['haiku'])
 
 @app.route('/regen3', methods=['GET'])
 def regen_3():
     line3, end_prev_line3 = haiku_line(markov_1, markov_2, corpus, session["end_prev_line2"], 5)
-    session['haiku']['line3'] = line3
+    session['haiku']['line3'] = ' '.join(line3)
     return jsonify(session['haiku'])
 
 PORT = 5000
 if __name__ == '__main__':
     print(f'Haiku-generator backend running on port {PORT}...')
-    app.run(port=PORT)
+    app.run(debug=True, use_reloader=False, port=PORT)
 
