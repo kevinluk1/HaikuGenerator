@@ -1,10 +1,39 @@
+
+
 <script>
-	export let name;
+  import { onMount } from 'svelte';
+  let message = "Haiku Generator";
+
+  onMount(async () => {
+      try {
+          const response = await fetch("http://localhost:5000/hello");
+          const data = await response.json();
+          name = data.message;
+      } catch (err) {
+          name = "Failed to fetch data";
+      }
+  });
+
+  async function handleGenerateButtonClick() {
+  	try{
+  		console.log("Fetching Haiku")
+  		const response = await fetch('http://localhost:5000/generate')
+		const data = await response.json()
+		console.log(data)
+	} catch(error){
+  		console.error("Error fetch data:", error);
+	}
+  }
 </script>
 
+
+
+
 <main>
+	<h1>{message}</h1>
+	<button on:click={handleGenerateButtonClick}>Generate</button>
 	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+
 </main>
 
 <style>

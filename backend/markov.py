@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, session
+from flask_cors import CORS
 import sys
 import logging
 import random
@@ -8,6 +9,7 @@ from typing import *
 import os
 import secrets
 
+
 logging.disable(logging.CRITICAL)
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
@@ -15,6 +17,12 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)  # Set a secret key for sessions
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+CORS(app)
+
+
+@app.route('/hello', methods=['GET'])
+def hello():
+    return {"message": "kevin"}
 
 
 def load_training_file(file) -> str:
@@ -186,5 +194,5 @@ def regen_3():
 PORT = 5000
 if __name__ == '__main__':
     print(f'Haiku-generator backend running on port {PORT}...')
-    app.run(debug=True, use_reloader=False, port=PORT)
+    app.run(debug=True, use_reloader=True, port=PORT)
 
