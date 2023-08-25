@@ -4,7 +4,7 @@ from string import punctuation
 import json
 from nltk.corpus import cmudict
 
-with open('missing_words.json') as f:
+with open('backend/missing_words.json') as f:
     missing_words = json.load(f)
     cmudict = cmudict.dict()
 
