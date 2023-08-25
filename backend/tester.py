@@ -1,6 +1,5 @@
 import sys
 import count_syllables
-from typing import *
 
 with open('train.txt') as in_file:
     words = set(in_file.read().split())
