@@ -19,7 +19,7 @@
   	startSpeaking()
   	try{
   		console.log("Fetching Haiku")
-  		const response = await fetch('http://localhost:5000/generate')
+  		const response = await fetch('http://localhost:5000/generate', {credentials:'include'})
 		const data = await response.json()
 		finalHaiku = (`\n\n ${data['line1']} \n ${data['line2']} \n ${data['line3']}`);
 		console.log(finalHaiku)
@@ -33,6 +33,44 @@
   		console.error("Error fetch data:", error);
 	}
   }
+
+  async function handleRegen2ButtonClick(){
+  	try{
+  		console.log("Regen line 2")
+		const response = await fetch('http://localhost:5000/regen2', {credentials:'include'})
+		const data = await response.json()
+		finalHaiku = (`\n\n ${data['line1']} \n ${data['line2']} \n ${data['line3']}`);
+  		console.log(finalHaiku)
+  		showHaiku = false
+        setTimeout(() => {
+          showHaiku = true;
+        }, 0);
+
+	}
+	catch(error){
+  		console.error(error)
+	}
+  }
+
+  async function handleRegen3ButtonClick(){
+  	try{
+  		console.log("Regen line 3")
+		const response = await fetch('http://localhost:5000/regen3', {credentials:'include'})
+		const data = await response.json()
+		finalHaiku = (`\n\n ${data['line1']} \n ${data['line2']} \n ${data['line3']}`);
+  		console.log(finalHaiku)
+  		showHaiku = false
+        setTimeout(() => {
+          showHaiku = true;
+        }, 0);
+
+	}
+	catch(error){
+  		console.error(error)
+	}
+  }
+
+
   function startSpeaking() {
         speaking = true;
         setTimeout(() => {
@@ -50,6 +88,12 @@
 	{/if}
 	<div>
 		<button on:click={handleGenerateButtonClick}>Generate</button>
+	</div>
+	<div>
+		<button on:click={handleRegen2ButtonClick}>Regenerate Line 2</button>
+	</div>
+	<div>
+		<button on:click={handleRegen3ButtonClick}>Regenerate Line 3</button>
 	</div>
 </main>
 
@@ -78,7 +122,7 @@
 	  white-space: pre-wrap;
 	  display: inline-block; /* Required for animation to work properly */
 	  overflow: hidden; /* Hides the content that overflows the box */
-	  animation: typewriter 5s steps(30, end); /* Apply the animation */
+	  animation: typewriter 5s steps(300, end); /* Apply the animation */
 	}
 	@keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
