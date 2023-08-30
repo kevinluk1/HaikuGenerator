@@ -1,0 +1,99 @@
+
+h1 {
+    color: #1c1717;
+    text-transform: uppercase;
+    font-size: 3em;
+    font-weight: 100;
+    font-family: 'Courier New', Courier, monospace; /* A typewriter-like font */
+}
+main {
+  margin: auto;
+  text-align: center;
+  padding: 1em;
+  max-width: 840px;
+
+  background: linear-gradient(135deg, #FAF3E0, #EAE2B7);
+  border: 2px solid #A89F91;
+  border-radius: 12px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.buttonBox, .explanation {
+  padding: 20px;
+  margin: 20px auto;
+  border: 2px solid #CCC;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  display: inline-block;
+  text-align: center;
+  font-family: Consolas;
+}
+
+.buttonBox button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(170, 198, 99, 0.56);
+  color: #1c1212;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+.buttonBox button:hover {
+  background-color: #ac5454;
+}
+
+ .buttonBox, h1 {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.haikuLine{
+	text-align: center;
+	font-size: 2.0em;
+	white-space: nowrap;
+	font-family: 'Courier New', Courier, monospace;
+	display: inline-block;
+	overflow: hidden;
+	max-width: 100%;
+}
+.haikuLine:nth-child(1) {
+	animation: typewriter 1s steps(30, end) 1s 1 normal both;
+}
+
+.haikuLine:nth-child(2) {
+	animation: typewriter 1s steps(30, end) 1s 1 normal both;
+}
+
+.haikuLine:nth-child(3) {
+	animation: typewriter 1s steps(30, end) 1s 1 normal both;
+}
+.shake-animation {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes typewriter {
+	0% { width: 0; }
+	100% { width: 100%; }
+}
+@keyframes shake {
+	0% { transform: translate(1px, 1px) rotate(0deg); }
+	10% { transform: translate(-1px, -2px) rotate(-1deg); }
+	20% { transform: translate(-2px, 0px) rotate(1deg); }
+	30% { transform: translate(1px, 2px) rotate(0deg); }
+	40% { transform: translate(1px, -1px) rotate(1deg); }
+	50% { transform: translate(-1px, 2px) rotate(-1deg); }
+	60% { transform: translate(-1px, 1px) rotate(0deg); }
+	70% { transform: translate(2px, 1px) rotate(-1deg); }
+	80% { transform: translate(-1px, -1px) rotate(1deg); }
+	90% { transform: translate(2px, 2px) rotate(0deg); }
+	100% { transform: translate(1px, -2px) rotate(-1deg); }
+	}
+@keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
