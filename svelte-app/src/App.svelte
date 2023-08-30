@@ -4,34 +4,56 @@
   let finalHaiku = ""
   let showHaiku = false;
   let speaking = false;
+  let firstLine = ""
+  let secondLine = ""
+  let thirdLine = ""
 
-  onMount(async () => {
-  try {
-	  const response = await fetch("http://localhost:5000/hello");
-	  const data = await response.json();
-	  name = data.message;
-  }
-  catch (err) {
-	  name = "Failed to fetch data";
-  }
-  });
+  let showFirstLine = false;
+  let showSecondLine = false;
+  let showThirdLine = false;
+
+
   async function handleGenerateButtonClick() {
   	startSpeaking()
   	try{
   		console.log("Fetching Haiku")
-  		const response = await fetch('http://localhost:5000/generate', {credentials:'include'})
+
+  		const response = await fetch('http://localhost:5000/generate',
+				{credentials:'include'})
 		const data = await response.json()
-		finalHaiku = (`\n\n ${data['line1']} \n ${data['line2']} \n ${data['line3']}`);
-		console.log(finalHaiku)
 
-		showHaiku = false; // force remount to allow for animation to occur on new poem generation
-        setTimeout(() => {
-          showHaiku = true;
-        }, 0);
 
+		firstLine = data['line1']
+		showFirstLine = true;
+  		setTimeout(()=> {
+  			secondLine = data['line2'];
+			showSecondLine = true;
+			setTimeout(() => {
+				thirdLine = data['line3'];
+				showThirdLine = true;}, 1000);
+		}, 1000)
+		animationRemount()
 	} catch(error){
   		console.error("Error fetch data:", error);
 	}
+  }
+
+
+  function animationRemount(){
+  	showFirstLine = false; // force remount to allow for animation to occur on new poem generation
+        setTimeout(() => {
+          showFirstLine = true;
+        }, 0);
+
+	  	showSecondLine = false; // force remount to allow for animation to occur on new poem generation
+        setTimeout(() => {
+          showSecondLine = true;
+        }, 1000);
+
+	  showThirdLine = false; // force remount to allow for animation to occur on new poem generation
+        setTimeout(() => {
+          showThirdLine = true;
+        }, 2000);
   }
 
   async function handleRegen2ButtonClick(){
@@ -83,9 +105,20 @@
 		<div>
 			<img src="/poet.jpg" alt="Poet" class:shake-animation={speaking}>
 		</div>
-	{#if showHaiku}
-		<pre>{finalHaiku}</pre>
+	<div class="haikuLines">
+	{#if showFirstLine}
+		<div class="haikuLine">{firstLine}</div>
 	{/if}
+	{#if showSecondLine}
+		<div class="haikuLine">{secondLine}</div>
+	{/if}
+
+	{#if showThirdLine}
+		<div class="haikuLine">{thirdLine}</div>
+	{/if}
+	</div>
+
+	<div>
 	<div>
 		<button on:click={handleGenerateButtonClick}>Generate</button>
 	</div>
@@ -95,6 +128,8 @@
 	<div>
 		<button on:click={handleRegen3ButtonClick}>Regenerate Line 3</button>
 	</div>
+		</div>
+
 </main>
 
 <style>
@@ -117,12 +152,7 @@
   		100% { width: 100%; }
 	}
 	pre {
-	  font-size: 2.0em;
-	  font-family: 'Courier New', Courier, monospace;
-	  white-space: pre-wrap;
-	  display: inline-block; /* Required for animation to work properly */
-	  overflow: hidden; /* Hides the content that overflows the box */
-	  animation: typewriter 5s steps(300, end); /* Apply the animation */
+
 	}
 	@keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
@@ -138,6 +168,27 @@
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
+	.haikuLine{
+		text-align: center;
+		font-size: 2.0em;
+	  	white-space: nowrap;
+	  	font-family: 'Courier', Courier, monospace;
+	    display: inline-block;
+	    overflow: hidden;
+	    max-width: 100%;
+	}
+
+	.haikuLine:nth-child(1) {
+  animation: typewriter 1s steps(30, end) 1s 1 normal both;
+}
+
+.haikuLine:nth-child(2) {
+  animation: typewriter 1s steps(30, end) 1s 1 normal both;
+}
+
+.haikuLine:nth-child(3) {
+  animation: typewriter 1s steps(30, end) 1s 1 normal both;
+}
 .shake-animation {
     animation: shake 0.5s;
     animation-iteration-count: infinite;
