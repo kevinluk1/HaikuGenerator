@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, session
-from flask_cors import CORS
+from flask import Flask, jsonify, session, request
+from flask_cors import CORS, cross_origin
 import sys
 import logging
 import random
@@ -10,15 +10,14 @@ import os
 import secrets
 
 
-logging.disable(logging.CRITICAL)
+# logging.disable(logging.CRITICAL)
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:8080"], supports_credentials=True)
 app.config['SECRET_KEY'] = secrets.token_hex(16)  # Set a secret key for sessions
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-CORS(app)
-
 
 @app.route('/hello', methods=['GET'])
 def hello():
@@ -150,7 +149,7 @@ def haiku_line(markov1: Dict, markov2: Dict, corpus: List[str], end_prev_line: L
         completed_line = current_line[2:]  # get rid of the prefix (first 2 words) on current line that was originally from the passed end_prev_line
     return completed_line, end_prev_line
 
-raw_haiku = load_training_file("backend/train.txt")
+raw_haiku = load_training_file("./train.txt")
 corpus = prep_training(raw_haiku)
 markov_1 = map_word_to_word(corpus)
 markov_2 = map_2_words_to_word(corpus)
@@ -182,17 +181,24 @@ def generate_haiku():  # button 1 api call
 def regen_2():
     line2, end_prev_line2 = haiku_line(markov_1, markov_2, corpus, session["end_prev_line1"], 7)
     session['haiku']['line2'] = ' '.join(line2)
+    session['haiku']['line2'] = session['haiku']['line2'].capitalize()
     session["end_prev_line2"] = line2[-2:]
     return jsonify(session['haiku'])
+
 
 @app.route('/regen3', methods=['GET'])
 def regen_3():
     line3, end_prev_line3 = haiku_line(markov_1, markov_2, corpus, session["end_prev_line2"], 5)
     session['haiku']['line3'] = ' '.join(line3)
+    session['haiku']['line3'] = session['haiku']['line3'].capitalize()
     return jsonify(session['haiku'])
+
+
+
+
 
 PORT = 5000
 if __name__ == '__main__':
     print(f'Haiku-generator backend running on port {PORT}...')
-    app.run(debug=True, use_reloader=True, port=PORT)
+    app.run(debug=True, use_reloader=False, port=PORT)
 
