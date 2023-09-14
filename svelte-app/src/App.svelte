@@ -1,6 +1,7 @@
 <script>
   let title = "Markov-Chain Haiku Generator";
   let finalHaiku = ""
+
   let showHaiku = false;
   let speaking = false;
   let firstLine = ""
@@ -92,7 +93,7 @@
 <main>
 	<h1>{title}</h1>
 		<div>
-			<img src="/guy.gif" alt="Poet" class:shake-animation={speaking}>
+			<img src="/guy.gif" alt="rapGod" class:shake-animation={speaking}>
 		</div>
 	<div class="haikuLines">
 		{#if showFirstLine}
@@ -127,10 +128,14 @@
 		<p>
 			Although the training corpus for this generator is based on roughly 300 different ancient and modern Haikus, this generator highlights the somewhat  annoying nature of the Markov chain model when provided with limited training data.
 		</p>
-		<h2> What is a Markov Chain? 🤔 </h2>
-		<p> A Markov chain is a mathematical model used to describe systems where the probability of each event occurring only depends on the state attained in the previous event. It's a way to make predictions based on past data, but only the most recent data is considered for making future predictions.
+		<h2>
+			What is a Markov Chain? 🤔
+		</h2>
+		<p>
+			A Markov chain is a mathematical model used to describe systems where the probability of each event occurring only depends on the state attained in the previous event. It's a way to make predictions based on past data, but only the most recent data is considered for making future predictions.
 		</p>
-		<p> In this case, a Markov chain is employed to predict the next word in a line of the poem based on one or more preceding words. The "states" in this case would be the words themselves, and the "transitions" between states would be governed by how often different words tend to follow one another in a training corpus of existing Haikus.
+		<p>
+			In this case, a Markov chain is employed to predict the next word in a line of the poem based on one or more preceding words. The "states" in this case would be the words themselves, and the "transitions" between states would be governed by how often different words tend to follow one another in a training corpus of existing Haikus.
 		</p>
 	</div>
 </main>
