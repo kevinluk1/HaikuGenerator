@@ -14,14 +14,11 @@ import secrets
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:8080"], supports_credentials=True)
-app.config['SECRET_KEY'] = secrets.token_hex(16)  # Set a secret key for sessions
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(16))  # fallback to a random secret key if SECRET_KEY is not set
+CORS(app, origins=os.environ.get('CORS_ORIGINS', "http://localhost:8080"), supports_credentials=True)  # fallback to localhost if CORS_ORIGINS is not set
+
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-
-@app.route('/hello', methods=['GET'])
-def hello():
-    return {"message": "kevin"}
 
 
 def load_training_file(file) -> str:
@@ -149,7 +146,8 @@ def haiku_line(markov1: Dict, markov2: Dict, corpus: List[str], end_prev_line: L
         completed_line = current_line[2:]  # get rid of the prefix (first 2 words) on current line that was originally from the passed end_prev_line
     return completed_line, end_prev_line
 
-raw_haiku = load_training_file("./train.txt")
+TRAIN_FILE_PATH = os.environ.get('TRAIN_FILE_PATH', "./train.txt")
+raw_haiku = load_training_file(TRAIN_FILE_PATH)
 corpus = prep_training(raw_haiku)
 markov_1 = map_word_to_word(corpus)
 markov_2 = map_2_words_to_word(corpus)
@@ -195,10 +193,7 @@ def regen_3():
 
 
 
-
-
-PORT = 5000
+PORT = int(os.environ.get('PORT', 5000))
 if __name__ == '__main__':
     print(f'Haiku-generator backend running on port {PORT}...')
-    app.run(debug=True, use_reloader=False, port=PORT)
-
+    app.run(debug=True, use_reloader=False, host='0.0.0.0', port=PORT)
