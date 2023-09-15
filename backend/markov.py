@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, session, request
 from flask_cors import CORS, cross_origin
-import sys
 import logging
 import random
 from collections import defaultdict

@@ -2,6 +2,8 @@ from typing import *
 import sys
 from string import punctuation
 import json
+import nltk
+nltk.download('cmudict')
 from nltk.corpus import cmudict
 
 with open('backend/missing_words.json') as f:
