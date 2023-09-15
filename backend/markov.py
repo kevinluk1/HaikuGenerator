@@ -145,7 +145,7 @@ def haiku_line(markov1: Dict, markov2: Dict, corpus: List[str], end_prev_line: L
         completed_line = current_line[2:]  # get rid of the prefix (first 2 words) on current line that was originally from the passed end_prev_line
     return completed_line, end_prev_line
 
-TRAIN_FILE_PATH = os.environ.get('TRAIN_FILE_PATH', "./train.txt")
+TRAIN_FILE_PATH = os.environ.get('TRAIN_FILE_PATH', "backend/train.txt")
 raw_haiku = load_training_file(TRAIN_FILE_PATH)
 corpus = prep_training(raw_haiku)
 markov_1 = map_word_to_word(corpus)
