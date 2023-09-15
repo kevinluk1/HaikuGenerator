@@ -40,7 +40,7 @@
 	startSpeaking()
 	try{
 		console.log("Fetching Haiku")
-		const response = await fetch('http://localhost:5000/generate',
+		const response = await fetch('https://backend-hf70.onrender.com/generate',
 				{credentials:'include'})
 		const data = await response.json()
 		displayHaiku(data)
@@ -53,7 +53,7 @@
 	try{
 		startSpeaking()
 		console.log("Regen line 2")
-		const response = await fetch('http://localhost:5000/regen2', {credentials:'include'})
+		const response = await fetch('https://backend-hf70.onrender.com/regen2', {credentials:'include'})
 		const data = await response.json()
 		secondLine = data['line2']
 		showSecondLine = false;
@@ -70,7 +70,7 @@
   	try{
   		startSpeaking()
   		console.log("Regen line 3")
-		const response = await fetch('http://localhost:5000/regen3', {credentials:'include'})
+		const response = await fetch('https://backend-hf70.onrender.com/regen3', {credentials:'include'})
 		const data = await response.json()
 		thirdLine = data['line3']
 		showThirdLine = false;
