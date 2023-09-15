@@ -14,8 +14,9 @@ logging.basicConfig(level=logging.DEBUG, format='%(message)s')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(16))  # fallback to a random secret key if SECRET_KEY is not set
-CORS(app, origins=os.environ.get('CORS_ORIGINS', "http://localhost:8080"), supports_credentials=True)  # fallback to localhost if CORS_ORIGINS is not set
-
+cors_origins = os.environ.get('CORS_ORIGINS', "http://localhost:8080")
+print(f"CORS origins set to: {cors_origins}")
+CORS(app, origins=cors_origins, supports_credentials=True)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 

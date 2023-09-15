@@ -1,7 +1,6 @@
 <script>
   let title = "Markov-Chain Haiku Generator";
   let finalHaiku = ""
-
   let showHaiku = false;
   let speaking = false;
   let firstLine = ""
@@ -40,8 +39,7 @@
 	startSpeaking()
 	try{
 		console.log("Fetching Haiku")
-		const response = await fetch('https://backend-hf70.onrender.com/generate',
-				{credentials:'include'})
+		const response = await fetch('https://backend-hf70.onrender.com/generate', {credentials:'include'})
 		const data = await response.json()
 		displayHaiku(data)
 		newHaikuAnimationRemount()
