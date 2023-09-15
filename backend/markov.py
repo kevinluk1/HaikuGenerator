@@ -19,7 +19,10 @@ print(f"CORS origins set to: {cors_origins}")
 CORS(app, origins=cors_origins, supports_credentials=True)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_SAMESITE='None',
+)
 
 def load_training_file(file) -> str:
     with open(file) as f:
