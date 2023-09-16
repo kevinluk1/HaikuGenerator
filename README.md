@@ -12,7 +12,8 @@ Future updates include ChatGPT integration to "interpret" the deeper meaning beh
 
 Link: https://frontend-vw1x.onrender.com/
 
-![a](https://github.com/kevinluk1/HaikuGenerator/assets/71728686/b11718fa-ae05-4bdc-8467-aee85a17abc2)
+![a](https://github.com/kevinluk1/HaikuGenerator/assets/71728686/5a20d0a3-b71d-49e4-be94-6cdc179ddcd4)
+
 
 The idea for this project is based on Lee Vaughan's book, Impractical Python Projects. 
 
