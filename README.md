@@ -1,7 +1,7 @@
 # Markov Chain Haiku Generator - Webapp
 This is Haiku Generator project that leverages 1st-level and 2nd-level Markov Chaining (implented with hashmap) to create interesting poems.
 Syllables are counted using the CMUDICT module in the Natural Language Toolkit (NLTK). The Markov Chain tables are trained on a corpus of 300+ haikus.
-
+This project does absolutely nothing useful -- it is more an exercise in understanding Markov Chains and an excuse to learn Svelte.
 
 It is deployed on Render, with the front-end being built on Svelte while the back-end is built on Flask. 
 Sessions are used in order to regenerate lines of already generated haikus. Please enable cookies! 
