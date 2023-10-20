@@ -10,7 +10,7 @@ The web-app works best on desktop browsers (tested on Chrome, Firefox)
 
 Future updates include ChatGPT integration to "interpret" the deeper meaning behind the Markov-generated poems.
 
-Link: https://frontend-vw1x.onrender.com/ (Render spins down services after no inactivity for 15 minutes -- it may take a few minutes to spin up if no one has visited the site recently)
+Link: https://frontend-vw1x.onrender.com/ (Render spins down services after inactivity for 15 minutes -- it may take a few minutes to spin up if no one has visited the site recently)
 
 ![a](https://github.com/kevinluk1/HaikuGenerator/assets/71728686/5a20d0a3-b71d-49e4-be94-6cdc179ddcd4)
 
