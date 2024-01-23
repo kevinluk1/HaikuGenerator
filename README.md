@@ -8,7 +8,7 @@ Sessions are used in order to regenerate lines of already generated haikus. Plea
 
 The web-app works best on desktop browsers (tested on Chrome, Firefox)
 
-Future updates include ChatGPT integration to "interpret" the deeper meaning behind the Markov-generated poems.
+Future updates include ChatGPT integration to "interpret" the "deeper" meaning behind the Markov-generated poems. It highlights the idea of AI creating meaning from essentially nothing.
 
 Link: https://frontend-vw1x.onrender.com/ (Render spins down services after inactivity for 15 minutes -- it may take a few minutes to spin up if no one has visited the site recently)
 
